@@ -1,4 +1,4 @@
-# Graphql::Smartselect
+# Graphql::SmartSelect
 
 Plugin for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) which helps to select only the required fields from the database.
 

@@ -9,6 +9,8 @@ module GraphQL
   # which selects only the required fields
   #
   module SmartSelect
+    attr_reader :db_columns, :smart_select
+
     def initialize(*args, **kwargs, &block)
       @smart_select = kwargs.delete(:smart_select)
       @db_columns = kwargs.delete(:db_columns)
@@ -18,8 +20,8 @@ module GraphQL
     private
 
     def apply_scope(value, ctx)
-      if @smart_select && value.is_a?(ActiveRecord::Relation)
-        fields_for_select = Resolver.new(value, ctx, @smart_select, @db_columns).resolve
+      if smart_select && value.is_a?(ActiveRecord::Relation)
+        fields_for_select = Resolver.new(value, ctx, smart_select).resolve
 
         value = ctx.schema.after_lazy(value) { |inner_value| inner_value.select(fields_for_select) }
       end

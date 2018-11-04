@@ -44,3 +44,9 @@ Metrics/BlockLength:
 
 Lint/HandleExceptions:
   Enabled: false
+
+Lint/UselessAccessModifier:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false

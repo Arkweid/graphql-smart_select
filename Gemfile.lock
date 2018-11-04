@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    graphql-smart_select (0.1.0)
+    graphql-smart_select (0.1.1)
       graphql
 
 GEM

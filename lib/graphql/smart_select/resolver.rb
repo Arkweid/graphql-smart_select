@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require 'graphql/smart_select/assosiation_resolver'
-require 'graphql/smart_select/options_resolver'
+require 'graphql/smart_select/assosiations'
+require 'graphql/smart_select/options'
+require 'graphql/smart_select/underscorize_utility'
 
 module GraphQL
   module SmartSelect
@@ -9,42 +10,42 @@ module GraphQL
     # Resolve the minimum required fields for the query
     #
     class Resolver
-      CAMEL_CASE_TO_SNAKE = [/([a-z\d])([A-Z])/, '\1_\2'].freeze
+      include UnderscorizeUtility
 
-      include AssosiationResolver
-      include OptionsResolver
+      attr_reader :relation, :ctx, :smart_select
 
-      attr_reader :value, :ctx, :smart_select, :db_columns
-
-      def initialize(value, ctx, smart_select, db_columns)
+      def initialize(relation, ctx, smart_select)
         @smart_select = smart_select
-        @db_columns = db_columns
-        @value = value
+        @relation = relation
         @ctx = ctx
       end
 
       def resolve
         reject_virtual_fields(
-          query_fields | assosiation_fields | db_columns_fields | smart_select_fields
+          query_fields | Assosiations.new(**assosiations_params).expose | Options.new(**options_params).expose
         ).map(&:to_sym)
       end
 
       private
 
-      def query_fields
-        @query_fields ||= list_of_nodes.keys.map { |key| underscorize(key) }
-      end
-
-      def underscorize(str)
-        str.gsub(*CAMEL_CASE_TO_SNAKE).downcase
-      end
-
       def list_of_nodes
         @list_of_nodes ||= ctx.irep_node.typed_children[ctx.type.unwrap]
       end
 
+      def query_fields
+        @query_fields ||= list_of_nodes.keys.map { |key| underscorize(key) }
+      end
+
       def reject_virtual_fields(fields_for_select)
-        value.model.column_names & fields_for_select
+        relation.model.column_names & fields_for_select
+      end
+
+      def assosiations_params
+        { relation: relation, query_fields: query_fields }
+      end
+
+      def options_params
+        { list_of_nodes: list_of_nodes, smart_select: smart_select }
       end
     end
   end
