@@ -1,0 +1,46 @@
+AllCops:
+  Include:
+    - 'lib/**/*.rb'
+    - 'lib/**/*.rake'
+    - 'spec/**/*.rb'
+  Exclude:
+    - 'bin/**/*'
+    - 'Rakefile'
+    - '*.gemspec'
+  DisplayCopNames: true
+  StyleGuideCopsOnly: false
+  TargetRubyVersion: 2.5.1
+
+Rails:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Layout/SpaceInsideStringInterpolation:
+  EnforcedStyle: no_space
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+Lint/HandleExceptions:
+  Enabled: false
