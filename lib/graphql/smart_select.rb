@@ -23,7 +23,7 @@ module GraphQL
       if smart_select && value.is_a?(ActiveRecord::Relation)
         fields_for_select = Resolver.new(value, ctx, smart_select).resolve
 
-        value = ctx.schema.after_lazy(value) { |inner_value| inner_value.select(fields_for_select) }
+        value = value.select(fields_for_select)
       end
       super
     end
