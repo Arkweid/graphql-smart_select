@@ -2,7 +2,6 @@
 
 require 'graphql/smart_select/assosiations'
 require 'graphql/smart_select/options'
-require 'graphql/smart_select/underscorize_utility'
 
 module GraphQL
   module SmartSelect
@@ -10,8 +9,6 @@ module GraphQL
     # Resolve the minimum required fields for the query
     #
     class Resolver
-      include UnderscorizeUtility
-
       attr_reader :relation, :ctx, :smart_select
 
       def initialize(relation, ctx, smart_select)
@@ -22,7 +19,9 @@ module GraphQL
 
       def resolve
         reject_virtual_fields(
-          query_fields | Assosiations.new(**assosiations_params).expose | Options.new(**options_params).expose
+          query_fields |
+            Assosiations.new(relation, query_fields).expose |
+            Options.new(list_of_nodes, smart_select).expose
         ).map(&:to_sym)
       end
 
@@ -33,19 +32,11 @@ module GraphQL
       end
 
       def query_fields
-        @query_fields ||= list_of_nodes.keys.map { |key| underscorize(key) }
+        @query_fields ||= list_of_nodes.keys.map(&:underscore)
       end
 
       def reject_virtual_fields(fields_for_select)
         relation.model.column_names & fields_for_select
-      end
-
-      def assosiations_params
-        { relation: relation, query_fields: query_fields }
-      end
-
-      def options_params
-        { list_of_nodes: list_of_nodes, smart_select: smart_select }
       end
     end
   end

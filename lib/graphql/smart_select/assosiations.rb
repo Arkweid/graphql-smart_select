@@ -9,7 +9,7 @@ module GraphQL
     class Assosiations
       attr_reader :relation, :query_fields
 
-      def initialize(relation:, query_fields:)
+      def initialize(relation, query_fields)
         @relation = relation
         @query_fields = query_fields
       end
@@ -20,14 +20,12 @@ module GraphQL
 
       private
 
-      ID_POSTFIX = '_id'
-
       def assosiations_keys
         relation.reflections.map do |assosiation_name, reflection|
           next unless required?(assosiation_name)
 
           if one_to_one?(reflection)
-            get_foreign_key(assosiation_name, reflection)
+            reflection.options[:foreign_key]&.to_s || assosiation_name.foreign_key
           elsif has_many?(reflection)
             relation.primary_key
           else
@@ -47,14 +45,6 @@ module GraphQL
 
       def has_many?(reflection)
         reflection.is_a?(ActiveRecord::Reflection::HasManyReflection)
-      end
-
-      def get_foreign_key(assosiation_name, reflection)
-        reflection.options[:foreign_key]&.to_s || assosiation_name + ID_POSTFIX
-      end
-
-      def reflections
-        @reflections ||= relation.reflections
       end
     end
   end

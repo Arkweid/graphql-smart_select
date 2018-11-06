@@ -9,7 +9,7 @@ module GraphQL
     class Options
       attr_reader :list_of_nodes, :smart_select
 
-      def initialize(list_of_nodes:, smart_select:)
+      def initialize(list_of_nodes, smart_select)
         @list_of_nodes = list_of_nodes
         @smart_select = smart_select
       end
@@ -20,12 +20,10 @@ module GraphQL
 
       private
 
-      DB_COLUMNS = proc do |_, node|
-        node.definition.metadata[:type_class].db_columns
-      end
-
       def db_columns_fields
-        list_of_nodes.flat_map(&DB_COLUMNS).compact.map(&:to_s)
+        list_of_nodes.flat_map do |_, node|
+          node.definition.metadata[:type_class].db_columns&.map(&:to_s)
+        end
       end
 
       def smart_select_fields
