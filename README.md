@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Arkweid/graphql-smart_select.svg?branch=master)](https://travis-ci.org/Arkweid/graphql-smart_select)
+
 # Graphql::SmartSelect
 
 Plugin for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) which helps to select only the required fields from the database.
