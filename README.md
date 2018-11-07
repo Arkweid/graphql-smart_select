@@ -103,6 +103,10 @@ query {
 It perform following request:
 ```SELECT id, title, raw_content, another_content, user_id FROM posts```
 
+## Notes
+
+[Custom Resolvers](http://graphql-ruby.org/fields/resolvers.html) feature not supported.
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
