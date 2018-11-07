@@ -4,4 +4,8 @@ language: ruby
 cache: bundler
 rvm:
   - 2.5.1
+gemfile:
+  - gemfiles/activerecord_4.2.gemfile
+  - gemfiles/activerecord_5.2.gemfile
+  - gemfiles/activerecord_edge.gemfile
 before_install: gem install bundler -v 1.16.6
