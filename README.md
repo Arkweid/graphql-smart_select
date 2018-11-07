@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Arkweid/graphql-smart_select.svg?branch=master)](https://travis-ci.org/Arkweid/graphql-smart_select)
+[![Cult Of Martians](http://cultofmartians.com/assets/badges/badge.svg)](http://cultofmartians.com) [![Gem Version](https://badge.fury.io/rb/graphql-smart_select.svg)](https://badge.fury.io/rb/graphql-smart_select) [![Build Status](https://travis-ci.org/Arkweid/graphql-smart_select.svg?branch=master)](https://travis-ci.org/Arkweid/graphql-smart_select)
 
 # GraphQL::SmartSelect
 
