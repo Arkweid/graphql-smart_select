@@ -2,6 +2,7 @@
 
 require 'graphql/smart_select/assosiations'
 require 'graphql/smart_select/options'
+require 'graphql/smart_select/connections_proxy'
 
 module GraphQL
   module SmartSelect
@@ -28,7 +29,9 @@ module GraphQL
       private
 
       def list_of_nodes
-        @list_of_nodes ||= ctx.irep_node.typed_children[ctx.type.unwrap]
+        @list_of_nodes ||= ConnectionsProxy.call(ctx) do
+          ctx.irep_node.typed_children[ctx.type.unwrap]
+        end
       end
 
       def query_fields

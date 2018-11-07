@@ -150,7 +150,34 @@ RSpec.describe GraphQL::SmartSelect do
       end
     end
 
+    context 'through Relay Connections' do
+      let(:feats_count) { '2' }
+      let(:data) do
+        GQL.query(%(
+          query {
+            featsConnection(first: #{feats_count}) {
+              edges {
+                cursor
+                node {
+                  title
+                  legend
+                }
+              }
+            }
+          }
+        ))
+      end
+      let(:queries) { track_queries { data } }
+      let(:value) { (ActiveRecord::VERSION::MAJOR < 5) ? feats_count : '?' }
+
+      it 'fetch necessary fields with limit' do
+        expect(queries.first).to eq('SELECT "feats"."id", "feats"."title", "feats"."legend" FROM "feats" LIMIT ' + value)
+        expect(data['featsConnection']['edges'].size).to eq(feats_count.to_i)
+      end
+    end
+
     context 'all cases together' do
+      let(:feats_count) { '3' }
       let(:query) do
         %(
           query {
@@ -162,13 +189,23 @@ RSpec.describe GraphQL::SmartSelect do
               country { name }
               battleSchool { title }
             }
+            featsConnection(first: #{feats_count}) {
+              edges {
+                cursor
+                node {
+                  legend
+                }
+              }
+            }
           }
         )
       end
+      let(:value) { (ActiveRecord::VERSION::MAJOR < 5) ? feats_count : '?' }
 
       it 'fetch necessary fields' do
         expect(subject.first).to eq('SELECT "witchers"."id", "witchers"."battle_school_id", "witchers"."horse_id", "witchers"."name", "witchers"."weapon", "witchers"."magic_level", "witchers"."land_id" FROM "witchers"')
         expect(subject.second).to eq('SELECT "feats"."legend" FROM "feats" WHERE "feats"."witcher_id" = ?')
+        expect(subject.last).to eq('SELECT "feats"."id", "feats"."legend" FROM "feats" LIMIT ' + value)
       end
     end
   end

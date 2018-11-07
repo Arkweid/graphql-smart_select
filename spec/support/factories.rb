@@ -17,6 +17,7 @@ module TestData
     )
 
     witcher.feats.create(title: 'Novigrad Hero', legend: 'Many knows')
+    witcher.feats.create(title: 'Wild Hunt Raider', legend: 'Several')
     witcher.feats.create(title: 'Unicorn... Yennefer...', legend: 'No one should know!')
   end
 end

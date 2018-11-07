@@ -57,6 +57,12 @@ class QueryRoot < GraphQL::Schema::Object
   %i[default_witchers smarty_bool_witchers smarty_array_witchers].each do |witcher_method|
     define_method(witcher_method) { Witcher.all }
   end
+
+  field :feats_connection, FeatType.connection_type, null: false, smart_select: [:id]
+
+  def feats_connection
+    Feat.all
+  end
 end
 
 class Schema < GraphQL::Schema
