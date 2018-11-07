@@ -107,6 +107,17 @@ It perform following request:
 
 [Custom Resolvers](http://graphql-ruby.org/fields/resolvers.html) feature not supported.
 
+Tested for activerecord version >= 4.2
+
+## Development
+For regression testing, run the following
+```shell
+# install Appraisals dependencies
+bundle exec appraisal install
+# run test suit through all dependencies listed in Appraisals file
+bundle exec appraisal rake spec
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
