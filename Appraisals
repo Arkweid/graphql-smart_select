@@ -9,3 +9,7 @@ end
 appraise 'activerecord-edge' do
   gem 'activerecord', github: "rails/rails"
 end
+
+appraise 'graphql-edge' do
+  gem 'graphql', github: "rmosolgo/graphql-ruby"
+end
