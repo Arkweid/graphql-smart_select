@@ -1,4 +1,4 @@
-/.bundle/
+.bundle/
 /.yardoc
 /_yardoc/
 /coverage/
@@ -6,7 +6,7 @@
 /pkg/
 /spec/reports/
 /tmp/
-
+*.lock
 .rspec_status
 .rspec
 .byebug_history
