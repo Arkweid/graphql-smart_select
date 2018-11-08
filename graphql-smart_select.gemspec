@@ -15,14 +15,14 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/Arkweid/graphql-smart_select'
   spec.license       = 'MIT'
 
-  spec.required_ruby_version = '>= 2.2.0'
+  spec.required_ruby_version = '>= 2.3.0'
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR).select { |p| p.match(%r{^lib/}) } +
                        %w[README.md CHANGELOG.md LICENSE.txt]
 
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'graphql'
+  spec.add_runtime_dependency 'graphql', '~> 1.8.7'
 
   spec.add_development_dependency 'activerecord', '>= 4.2'
   spec.add_development_dependency 'bundler', '~> 1.16'
