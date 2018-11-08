@@ -4,6 +4,12 @@
 
 Plugin for [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) which helps to select only the required fields from the database.
 
+## Requirements
+
+- Ruby >= 2.3.0
+- `graphql-ruby` ~> 1.8.7
+- `activerecord` >= 4.2
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -12,7 +18,7 @@ Add this line to your application's Gemfile:
 gem 'graphql-smart_select'
 ```
 
-## Problem explanation
+## The Problem
 
 Consider the following query:
 ```
@@ -24,7 +30,7 @@ query {
 }
 ```
 
-Ruby interface for serve this query:
+Ruby interface for serving this query:
 ```ruby
 module GraphqlAPI
   module Types
@@ -38,12 +44,13 @@ module GraphqlAPI
   end
 end
 ```
-In the default case, this will lead to the query: ```SELECT * FROM posts```. But we need only ```id``` and ```title```.
-For tables with a large number of columns, this has a negative effect on performance.
+In the default case, this leads to the query: `SELECT * FROM posts`, and we only need `id` and `title`.
+For tables with a large number of columns, this could have a negative effect on performance (due to both DB reads and ActiveRecord object instantiation).
 
 ## Usage
 
-Let's use our plugin:
+Smart Select works as en extension for `field_class`:
+
 ```ruby
 module GraphqlAPI
   module Types
@@ -55,7 +62,7 @@ module GraphqlAPI
       field :posts, Types::Post, null: false, smart_select: true
 
       # You can also explicitly specify which fields
-      # will be added
+      # to include in every query
       field :posts, Types::Post, null: false, smart_select: [:id]
 
       def posts
@@ -100,16 +107,18 @@ query {
   }
 }
 ```
-It perform following request:
-```SELECT id, title, raw_content, another_content, user_id FROM posts```
+
+It performs the following query:
+`SELECT id, title, raw_content, another_content, user_id FROM posts`
 
 ## Notes
 
-[Custom Resolvers](http://graphql-ruby.org/fields/resolvers.html) feature not supported.
+[Custom Resolvers](http://graphql-ruby.org/fields/resolvers.html) are not supported.
 
 Tested for activerecord version >= 4.2
 
 ## Development
+
 For regression testing, run the following
 ```shell
 # install Appraisals dependencies
