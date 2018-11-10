@@ -21,7 +21,7 @@ gem 'graphql-smart_select'
 ## The Problem
 
 Consider the following query:
-```
+```graphql
 query {
   posts {
     id
@@ -49,7 +49,7 @@ For tables with a large number of columns, this could have a negative effect on 
 
 ## Usage
 
-Smart Select works as en extension for `field_class`:
+Smart Select works as an extension for `field_class`:
 
 ```ruby
 module GraphqlAPI
@@ -97,7 +97,7 @@ end
 ```
 
 For this example query:
-```
+```graphql
 query {
   posts {
     title
